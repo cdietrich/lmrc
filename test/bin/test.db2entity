@@ -1,0 +1,10 @@
+database CompanyDB
+table Departments
+number id <- Department.id
+char descr <- Department.description
+table People
+number id <- Employee.id
+char name <- Employee.name
+char role <- Employee.role
+char isFreelancer <- Employee.freelancer
+

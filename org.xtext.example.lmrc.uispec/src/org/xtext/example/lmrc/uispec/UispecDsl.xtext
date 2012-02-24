@@ -1,0 +1,40 @@
+grammar org.xtext.example.lmrc.uispec.UispecDsl with org.eclipse.xtext.common.Terminals
+
+import "http://www.xtext.org/example/lmrc/entity/EntityDsl" as entity
+
+generate uispecDsl "http://www.xtext.org/example/lmrc/uispec/UispecDsl"
+
+Form:
+	"form" name=ID
+	usedEntities+=EntityReference*
+	fields+=Field*
+;
+
+EntityReference:
+	"uses" entity=[entity::Entity|FQN]
+;
+
+FQN:ID ("." ID)*;
+
+Field:
+	"field" label=ID ":" widget=Widget "->" attribute=[entity::Attribute|FQN]
+;
+
+Widget:
+	TextFieldWidget | CheckBoxWidget | ComboWidget
+;
+
+
+TextFieldWidget:
+	"textfield" "(" length=INT ")"
+;
+
+
+CheckBoxWidget:
+	{CheckBoxWidget}"checkbox"
+;
+
+
+ComboWidget:
+	{ComboWidget} "combobox" "(" (values+=ID ("," values+=ID)*)? ")"
+;

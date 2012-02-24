@@ -1,0 +1,9 @@
+module sample {
+	entity Person {
+		lastname : String
+		firstname : String
+		String fullName(String from) {
+			return "Hello " + firstname + " "  + lastname + " from " + from
+		}
+	}
+}

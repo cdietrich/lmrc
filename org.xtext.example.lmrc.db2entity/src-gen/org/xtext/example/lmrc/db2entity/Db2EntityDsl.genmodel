@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.xtext.example.lmrc.db2entity/src-gen"
+    editDirectory="/org.xtext.example.lmrc.db2entity.edit/src" editorDirectory="/org.xtext.example.lmrc.db2entity.editor/src"
+    modelPluginID="org.xtext.example.lmrc.db2entity" forceOverwrite="true" modelName="Db2EntityDsl"
+    updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="org.xtext.example.lmrc.db2entity.edit"
+    editorPluginID="org.xtext.example.lmrc.db2entity.editor" usedGenPackages="../../../../../../../org.xtext.example.lmrc.db/src-gen/org/xtext/example/lmrc/db/DbDsl.genmodel#//dbDsl ../../../../../../../org.xtext.example.lmrc.entity/src-gen/org/xtext/example/lmrc/entity/EntityDsl.genmodel#//entityDsl">
+  <genPackages prefix="Db2EntityDsl" basePackage="org.xtext.example.lmrc.db2entity"
+      disposableProviderFactory="true" ecorePackage="Db2EntityDsl.ecore#/">
+    <genClasses ecoreClass="Db2EntityDsl.ecore#//EntityColumnMapper">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Db2EntityDsl.ecore#//EntityColumnMapper/entity"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

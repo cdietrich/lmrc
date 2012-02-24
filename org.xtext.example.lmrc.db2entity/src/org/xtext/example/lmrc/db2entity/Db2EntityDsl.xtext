@@ -1,0 +1,29 @@
+grammar org.xtext.example.lmrc.db2entity.Db2EntityDsl with org.xtext.example.lmrc.db.DbDsl
+
+import "http://www.xtext.org/example/lmrc/db/DbDsl" as db
+import "http://www.xtext.org/example/lmrc/entity/EntityDsl" as entity
+
+
+generate db2EntityDsl "http://www.xtext.org/example/lmrc/db2entity/Db2EntityDsl"
+
+
+Root returns db::Root :
+	Database
+;
+
+
+AbstractColumnMapper returns db::AbstractColumnMapper:
+	EntityColumnMapper
+;
+
+
+EntityColumnMapper returns db::AbstractColumnMapper:
+	{EntityColumnMapper}"<-" entity=[entity::Attribute|FQN]
+;
+
+
+FQN:
+	ID ("." ID)*
+;
+
+

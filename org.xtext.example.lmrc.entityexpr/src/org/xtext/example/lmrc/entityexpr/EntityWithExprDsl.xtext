@@ -1,0 +1,36 @@
+grammar org.xtext.example.lmrc.entityexpr.EntityWithExprDsl with org.eclipse.xtext.xbase.Xbase
+
+generate entityWithExprDsl "http://www.xtext.org/example/lmrc/entityexpr/EntityWithExprDsl"
+
+Module:
+	imports+=Import*
+	"module" name=ID "{"
+		entities+=Entity*
+	"}"
+;
+
+Import:
+	"import" importedNamespace=QualifiedNameWithWildCard;
+	
+QualifiedNameWithWildCard :
+	QualifiedName  ('.' '*')?;	
+
+Entity:
+	"entity" name=ID "{"
+		attributes+=Attribute*
+		operations+=Operation*
+	"}"
+;
+
+
+Attribute:
+	name=ID ":" type=JvmTypeReference
+;
+
+
+Operation:
+	type=JvmTypeReference name=ID "("  (parameters+=FullJvmFormalParameter (',' parameters+=FullJvmFormalParameter)*)? ")"
+		body=XBlockExpression
+;
+
+

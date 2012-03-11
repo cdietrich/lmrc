@@ -1,7 +1,0 @@
-form CompanyStructure
-uses Department
-uses Employee
-field Name: textfield(30) -> Employee.worksAt
-field Role: combobox(Boss, TeamMember) -> Employee.role
-field Freelancer: checkbox -> Employee.freelancer
-field Office: textfield(20) -> Department.description

@@ -29,6 +29,7 @@ import com.google.common.base.Function;
  */
 public class UispecDslScopeProvider extends AbstractDeclarativeScopeProvider {
 	
+	// Custom Scoping for field attributes
 	IScope scope_Field_attribute(Field context, EReference ref) {
 		Form form = EcoreUtil2.getContainerOfType(context, Form.class);
 		List<Attribute> scope = new ArrayList<Attribute>();

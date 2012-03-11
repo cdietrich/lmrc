@@ -6,6 +6,8 @@ import org.xtext.example.lmrc.entity.entityDsl.Entity;
 
 public class EntityDslNameProvider extends DefaultDeclarativeQualifiedNameProvider {
 	
+	// By default Entities have FQN packagename.entityname
+	// we want simply EntityName
 	QualifiedName qualifiedName(Entity entity) {
 		return QualifiedName.create(entity.getName());
 	}

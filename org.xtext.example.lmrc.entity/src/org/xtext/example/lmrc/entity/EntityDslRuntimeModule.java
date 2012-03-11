@@ -11,6 +11,7 @@ import org.xtext.example.lmrc.entity.naming.EntityDslNameProvider;
  */
 public class EntityDslRuntimeModule extends org.xtext.example.lmrc.entity.AbstractEntityDslRuntimeModule {
 	
+	// Custom Naming
 	@Override
 	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
 		return EntityDslNameProvider.class;

@@ -3,6 +3,8 @@ grammar org.xtext.example.lmrc.uispec.UispecDsl with org.eclipse.xtext.common.Te
 import "http://www.xtext.org/example/lmrc/entity/EntityDsl" as entity
 
 generate uispecDsl "http://www.xtext.org/example/lmrc/uispec/UispecDsl"
+	
+//TODO ggf einfachere imports (importedNamespace)	
 
 Form:
 	"form" name=ID

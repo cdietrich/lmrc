@@ -1,0 +1,28 @@
+SMAP
+EntityWithExprDslJvmModelInferrer.java
+Java
+*S Xtend
+*F
++ 0 EntityWithExprDslJvmModelInferrer.xtend
+src/org/xtext/example/lmrc/entityexpr/jvmmodel/EntityWithExprDslJvmModelInferrer.xtend
+*L
+26:39,3
+27:42,2
+29:44,3
+30:47,5
+31:52,5
+32:57,5
+29:62,2
+35:64,2
+36:66,5
+37:71,2
+38:73,2
+39:75,5
+38:80
+41:81,2
+36:83,4
+35:87
+26:88,3
+25:91
+24:95,3
+null*E

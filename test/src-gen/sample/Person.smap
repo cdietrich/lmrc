@@ -1,0 +1,10 @@
+SMAP
+Person.java
+EntityWithExprDsl
+*S EntityWithExprDsl
+*F
++ 0 test.entityexpr
+src/test.entityexpr
+*L
+7:35,5
+*E

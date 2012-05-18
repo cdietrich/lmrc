@@ -23,7 +23,7 @@ import org.xtext.example.lmrc.entity.entityDsl.Module;
 import org.xtext.example.lmrc.entity.entityDsl.StringType;
 import org.xtext.example.lmrc.entity.services.EntityDslGrammarAccess;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings("all")
 public class AbstractEntityDslSemanticSequencer extends AbstractSemanticSequencer {
 
 	@Inject

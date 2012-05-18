@@ -11,7 +11,7 @@ import org.eclipse.xtext.serializer.analysis.ISyntacticSequencerPDAProvider.ISyn
 import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 import org.xtext.example.lmrc.entity.services.EntityDslGrammarAccess;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings("all")
 public class AbstractEntityDslSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected EntityDslGrammarAccess grammarAccess;

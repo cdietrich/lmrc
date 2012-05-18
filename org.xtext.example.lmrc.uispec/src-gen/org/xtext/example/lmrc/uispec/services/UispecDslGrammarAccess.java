@@ -7,6 +7,8 @@ package org.xtext.example.lmrc.uispec.services;
 import com.google.inject.Singleton;
 import com.google.inject.Inject;
 
+import java.util.List;
+
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.service.GrammarProvider;
 import org.eclipse.xtext.service.AbstractElementFinder.*;
@@ -28,7 +30,10 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cFieldsAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cFieldsFieldParserRuleCall_3_0 = (RuleCall)cFieldsAssignment_3.eContents().get(0);
 		
+		////TODO ggf einfachere imports (importedNamespace)	
+		//
 		//Form:
+		//
 		//	"form" name=ID usedEntities+=EntityReference* fields+=Field*;
 		public ParserRule getRule() { return rule; }
 
@@ -66,6 +71,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cEntityEntityFQNParserRuleCall_1_0_1 = (RuleCall)cEntityEntityCrossReference_1_0.eContents().get(1);
 		
 		//EntityReference:
+		//
 		//	"uses" entity=[entity::Entity|FQN];
 		public ParserRule getRule() { return rule; }
 
@@ -94,6 +100,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIDTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
 		//FQN:
+		//
 		//	ID ("." ID)*;
 		public ParserRule getRule() { return rule; }
 
@@ -128,6 +135,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAttributeAttributeFQNParserRuleCall_5_0_1 = (RuleCall)cAttributeAttributeCrossReference_5_0.eContents().get(1);
 		
 		//Field:
+		//
 		//	"field" label=ID ":" widget=Widget "->" attribute=[entity::Attribute|FQN];
 		public ParserRule getRule() { return rule; }
 
@@ -173,6 +181,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cComboWidgetParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//Widget:
+		//
 		//	TextFieldWidget | CheckBoxWidget | ComboWidget;
 		public ParserRule getRule() { return rule; }
 
@@ -199,6 +208,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
 		//TextFieldWidget:
+		//
 		//	"textfield" "(" length=INT ")";
 		public ParserRule getRule() { return rule; }
 
@@ -228,6 +238,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cCheckboxKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
 		//CheckBoxWidget:
+		//
 		//	{CheckBoxWidget} "checkbox";
 		public ParserRule getRule() { return rule; }
 
@@ -257,6 +268,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightParenthesisKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//ComboWidget:
+		//
 		//	{ComboWidget} "combobox" "(" (values+=ID ("," values+=ID)*)? ")";
 		public ParserRule getRule() { return rule; }
 
@@ -307,19 +319,36 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	private CheckBoxWidgetElements pCheckBoxWidget;
 	private ComboWidgetElements pComboWidget;
 	
-	private final GrammarProvider grammarProvider;
+	private final Grammar grammar;
 
 	private TerminalsGrammarAccess gaTerminals;
 
 	@Inject
 	public UispecDslGrammarAccess(GrammarProvider grammarProvider,
 		TerminalsGrammarAccess gaTerminals) {
-		this.grammarProvider = grammarProvider;
+		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaTerminals = gaTerminals;
 	}
 	
-	public Grammar getGrammar() {	
-		return grammarProvider.getGrammar(this);
+	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
+		Grammar grammar = grammarProvider.getGrammar(this);
+		while (grammar != null) {
+			if ("org.xtext.example.lmrc.uispec.UispecDsl".equals(grammar.getName())) {
+				return grammar;
+			}
+			List<Grammar> grammars = grammar.getUsedGrammars();
+			if (!grammars.isEmpty()) {
+				grammar = grammars.iterator().next();
+			} else {
+				return null;
+			}
+		}
+		return grammar;
+	}
+	
+	
+	public Grammar getGrammar() {
+		return grammar;
 	}
 	
 
@@ -328,7 +357,10 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	
+	////TODO ggf einfachere imports (importedNamespace)	
+	//
 	//Form:
+	//
 	//	"form" name=ID usedEntities+=EntityReference* fields+=Field*;
 	public FormElements getFormAccess() {
 		return (pForm != null) ? pForm : (pForm = new FormElements());
@@ -339,6 +371,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//EntityReference:
+	//
 	//	"uses" entity=[entity::Entity|FQN];
 	public EntityReferenceElements getEntityReferenceAccess() {
 		return (pEntityReference != null) ? pEntityReference : (pEntityReference = new EntityReferenceElements());
@@ -349,6 +382,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//FQN:
+	//
 	//	ID ("." ID)*;
 	public FQNElements getFQNAccess() {
 		return (pFQN != null) ? pFQN : (pFQN = new FQNElements());
@@ -359,6 +393,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Field:
+	//
 	//	"field" label=ID ":" widget=Widget "->" attribute=[entity::Attribute|FQN];
 	public FieldElements getFieldAccess() {
 		return (pField != null) ? pField : (pField = new FieldElements());
@@ -369,6 +404,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Widget:
+	//
 	//	TextFieldWidget | CheckBoxWidget | ComboWidget;
 	public WidgetElements getWidgetAccess() {
 		return (pWidget != null) ? pWidget : (pWidget = new WidgetElements());
@@ -379,6 +415,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//TextFieldWidget:
+	//
 	//	"textfield" "(" length=INT ")";
 	public TextFieldWidgetElements getTextFieldWidgetAccess() {
 		return (pTextFieldWidget != null) ? pTextFieldWidget : (pTextFieldWidget = new TextFieldWidgetElements());
@@ -389,6 +426,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CheckBoxWidget:
+	//
 	//	{CheckBoxWidget} "checkbox";
 	public CheckBoxWidgetElements getCheckBoxWidgetAccess() {
 		return (pCheckBoxWidget != null) ? pCheckBoxWidget : (pCheckBoxWidget = new CheckBoxWidgetElements());
@@ -399,6 +437,7 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ComboWidget:
+	//
 	//	{ComboWidget} "combobox" "(" (values+=ID ("," values+=ID)*)? ")";
 	public ComboWidgetElements getComboWidgetAccess() {
 		return (pComboWidget != null) ? pComboWidget : (pComboWidget = new ComboWidgetElements());
@@ -409,43 +448,51 @@ public class UispecDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal ID:
+	//
 	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
 	public TerminalRule getIDRule() {
 		return gaTerminals.getIDRule();
 	} 
 
 	//terminal INT returns ecore::EInt:
+	//
 	//	"0".."9"+;
 	public TerminalRule getINTRule() {
 		return gaTerminals.getINTRule();
 	} 
 
 	//terminal STRING:
+	//
 	//	"\"" ("\\" ("b" | "t" | "n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\""))* "\"" | "\'" ("\\" ("b" | "t" |
+	//
 	//	"n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\'"))* "\'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	} 
 
 	//terminal ML_COMMENT:
+	//
 	//	"/ *"->"* /";
 	public TerminalRule getML_COMMENTRule() {
 		return gaTerminals.getML_COMMENTRule();
 	} 
 
 	//terminal SL_COMMENT:
+	//
 	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaTerminals.getSL_COMMENTRule();
 	} 
 
 	//terminal WS:
+	//
 	//	(" " | "\t" | "\r" | "\n")+;
 	public TerminalRule getWSRule() {
 		return gaTerminals.getWSRule();
 	} 
 
 	//terminal ANY_OTHER:
+	//
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
 		return gaTerminals.getANY_OTHERRule();

@@ -24,7 +24,7 @@ import org.xtext.example.lmrc.db2entity.db2EntityDsl.Db2EntityDslPackage;
 import org.xtext.example.lmrc.db2entity.db2EntityDsl.EntityColumnMapper;
 import org.xtext.example.lmrc.db2entity.services.Db2EntityDslGrammarAccess;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings("all")
 public class AbstractDb2EntityDslSemanticSequencer extends AbstractSemanticSequencer {
 
 	@Inject

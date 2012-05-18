@@ -2,6 +2,7 @@ module sample {
 	entity Person {
 		lastname : String
 		firstname : String
+		age : Integer
 		String fullName(String from) {
 			return "Hello " + firstname + " "  + lastname + " from " + from
 		}

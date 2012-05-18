@@ -19,7 +19,7 @@ import org.xtext.example.lmrc.db.dbDsl.NumberType;
 import org.xtext.example.lmrc.db.dbDsl.Table;
 import org.xtext.example.lmrc.db.services.DbDslGrammarAccess;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings("all")
 public class AbstractDbDslSemanticSequencer extends AbstractSemanticSequencer {
 
 	@Inject

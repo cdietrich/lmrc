@@ -1,7 +1,5 @@
 package sample;
 
-import org.eclipse.xtext.xbase.lib.StringExtensions;
-
 public class Person {
   private String lastname;
   
@@ -23,12 +21,21 @@ public class Person {
     this.firstname = firstname;
   }
   
+  private Integer age;
+  
+  public Integer getAge() {
+    return this.age;
+  }
+  
+  public void setAge(final Integer age) {
+    this.age = age;
+  }
+  
   public String fullName(final String from) {
-    String _operator_plus = StringExtensions.operator_plus("Hello ", this.firstname);
-    String _operator_plus_1 = StringExtensions.operator_plus(_operator_plus, " ");
-    String _operator_plus_2 = StringExtensions.operator_plus(_operator_plus_1, this.lastname);
-    String _operator_plus_3 = StringExtensions.operator_plus(_operator_plus_2, " from ");
-    String _operator_plus_4 = StringExtensions.operator_plus(_operator_plus_3, from);
-    return _operator_plus_4;
+    String _plus = ("Hello " + this.firstname);
+    String _plus_1 = (_plus + " ");
+    String _plus_2 = (_plus_1 + this.lastname);
+    String _plus_3 = (_plus_2 + " from ");
+    return (_plus_3 + from);
   }
 }

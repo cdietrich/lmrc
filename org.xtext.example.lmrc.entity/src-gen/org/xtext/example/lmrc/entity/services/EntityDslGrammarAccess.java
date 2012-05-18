@@ -7,6 +7,8 @@ package org.xtext.example.lmrc.entity.services;
 import com.google.inject.Singleton;
 import com.google.inject.Inject;
 
+import java.util.List;
+
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.service.GrammarProvider;
 import org.eclipse.xtext.service.AbstractElementFinder.*;
@@ -29,6 +31,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//Module:
+		//
 		//	"module" name=ID "{" entities+=Entity* "}";
 		public ParserRule getRule() { return rule; }
 
@@ -69,6 +72,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//Entity:
+		//
 		//	"entity" name=ID "{" attributes+=Attribute* "}";
 		public ParserRule getRule() { return rule; }
 
@@ -107,6 +111,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cTypeAbstractTypeParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
 		
 		//Attribute:
+		//
 		//	name=ID ":" type=AbstractType;
 		public ParserRule getRule() { return rule; }
 
@@ -137,6 +142,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAttributeParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//Named:
+		//
 		//	Module | Entity | Attribute;
 		public ParserRule getRule() { return rule; }
 
@@ -162,6 +168,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cEntityReferenceParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//AbstractType:
+		//
 		//	BooleanType | IntType | StringType | EntityReference;
 		public ParserRule getRule() { return rule; }
 
@@ -188,6 +195,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cBooleanKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
 		//BooleanType:
+		//
 		//	{BooleanType} "boolean";
 		public ParserRule getRule() { return rule; }
 
@@ -208,6 +216,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cIntKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
 		//IntType:
+		//
 		//	{IntType} "int";
 		public ParserRule getRule() { return rule; }
 
@@ -228,6 +237,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cStringKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		
 		//StringType:
+		//
 		//	{StringType} "string";
 		public ParserRule getRule() { return rule; }
 
@@ -248,6 +258,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cRefEntityFQNParserRuleCall_0_1 = (RuleCall)cRefEntityCrossReference_0.eContents().get(1);
 		
 		//EntityReference:
+		//
 		//	ref=[Entity|FQN];
 		public ParserRule getRule() { return rule; }
 
@@ -270,6 +281,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIDTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
 		//FQN:
+		//
 		//	ID ("." ID)*;
 		public ParserRule getRule() { return rule; }
 
@@ -301,19 +313,36 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	private EntityReferenceElements pEntityReference;
 	private FQNElements pFQN;
 	
-	private final GrammarProvider grammarProvider;
+	private final Grammar grammar;
 
 	private TerminalsGrammarAccess gaTerminals;
 
 	@Inject
 	public EntityDslGrammarAccess(GrammarProvider grammarProvider,
 		TerminalsGrammarAccess gaTerminals) {
-		this.grammarProvider = grammarProvider;
+		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaTerminals = gaTerminals;
 	}
 	
-	public Grammar getGrammar() {	
-		return grammarProvider.getGrammar(this);
+	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
+		Grammar grammar = grammarProvider.getGrammar(this);
+		while (grammar != null) {
+			if ("org.xtext.example.lmrc.entity.EntityDsl".equals(grammar.getName())) {
+				return grammar;
+			}
+			List<Grammar> grammars = grammar.getUsedGrammars();
+			if (!grammars.isEmpty()) {
+				grammar = grammars.iterator().next();
+			} else {
+				return null;
+			}
+		}
+		return grammar;
+	}
+	
+	
+	public Grammar getGrammar() {
+		return grammar;
 	}
 	
 
@@ -323,6 +352,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//Module:
+	//
 	//	"module" name=ID "{" entities+=Entity* "}";
 	public ModuleElements getModuleAccess() {
 		return (pModule != null) ? pModule : (pModule = new ModuleElements());
@@ -333,6 +363,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Entity:
+	//
 	//	"entity" name=ID "{" attributes+=Attribute* "}";
 	public EntityElements getEntityAccess() {
 		return (pEntity != null) ? pEntity : (pEntity = new EntityElements());
@@ -343,6 +374,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Attribute:
+	//
 	//	name=ID ":" type=AbstractType;
 	public AttributeElements getAttributeAccess() {
 		return (pAttribute != null) ? pAttribute : (pAttribute = new AttributeElements());
@@ -353,6 +385,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Named:
+	//
 	//	Module | Entity | Attribute;
 	public NamedElements getNamedAccess() {
 		return (pNamed != null) ? pNamed : (pNamed = new NamedElements());
@@ -363,6 +396,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AbstractType:
+	//
 	//	BooleanType | IntType | StringType | EntityReference;
 	public AbstractTypeElements getAbstractTypeAccess() {
 		return (pAbstractType != null) ? pAbstractType : (pAbstractType = new AbstractTypeElements());
@@ -373,6 +407,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//BooleanType:
+	//
 	//	{BooleanType} "boolean";
 	public BooleanTypeElements getBooleanTypeAccess() {
 		return (pBooleanType != null) ? pBooleanType : (pBooleanType = new BooleanTypeElements());
@@ -383,6 +418,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//IntType:
+	//
 	//	{IntType} "int";
 	public IntTypeElements getIntTypeAccess() {
 		return (pIntType != null) ? pIntType : (pIntType = new IntTypeElements());
@@ -393,6 +429,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//StringType:
+	//
 	//	{StringType} "string";
 	public StringTypeElements getStringTypeAccess() {
 		return (pStringType != null) ? pStringType : (pStringType = new StringTypeElements());
@@ -403,6 +440,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//EntityReference:
+	//
 	//	ref=[Entity|FQN];
 	public EntityReferenceElements getEntityReferenceAccess() {
 		return (pEntityReference != null) ? pEntityReference : (pEntityReference = new EntityReferenceElements());
@@ -413,6 +451,7 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//FQN:
+	//
 	//	ID ("." ID)*;
 	public FQNElements getFQNAccess() {
 		return (pFQN != null) ? pFQN : (pFQN = new FQNElements());
@@ -423,43 +462,51 @@ public class EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal ID:
+	//
 	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
 	public TerminalRule getIDRule() {
 		return gaTerminals.getIDRule();
 	} 
 
 	//terminal INT returns ecore::EInt:
+	//
 	//	"0".."9"+;
 	public TerminalRule getINTRule() {
 		return gaTerminals.getINTRule();
 	} 
 
 	//terminal STRING:
+	//
 	//	"\"" ("\\" ("b" | "t" | "n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\""))* "\"" | "\'" ("\\" ("b" | "t" |
+	//
 	//	"n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\'"))* "\'";
 	public TerminalRule getSTRINGRule() {
 		return gaTerminals.getSTRINGRule();
 	} 
 
 	//terminal ML_COMMENT:
+	//
 	//	"/ *"->"* /";
 	public TerminalRule getML_COMMENTRule() {
 		return gaTerminals.getML_COMMENTRule();
 	} 
 
 	//terminal SL_COMMENT:
+	//
 	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaTerminals.getSL_COMMENTRule();
 	} 
 
 	//terminal WS:
+	//
 	//	(" " | "\t" | "\r" | "\n")+;
 	public TerminalRule getWSRule() {
 		return gaTerminals.getWSRule();
 	} 
 
 	//terminal ANY_OTHER:
+	//
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
 		return gaTerminals.getANY_OTHERRule();

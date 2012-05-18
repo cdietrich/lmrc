@@ -8,6 +8,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
+import org.xtext.example.lmrc.uispec.ui.internal.UispecDslActivator;
+
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
@@ -16,12 +18,12 @@ public class UispecDslExecutableExtensionFactory extends AbstractGuiceAwareExecu
 
 	@Override
 	protected Bundle getBundle() {
-		return org.xtext.example.lmrc.uispec.ui.internal.UispecDslActivator.getInstance().getBundle();
+		return UispecDslActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return org.xtext.example.lmrc.uispec.ui.internal.UispecDslActivator.getInstance().getInjector("org.xtext.example.lmrc.uispec.UispecDsl");
+		return UispecDslActivator.getInstance().getInjector(UispecDslActivator.ORG_XTEXT_EXAMPLE_LMRC_UISPEC_UISPECDSL);
 	}
 	
 }

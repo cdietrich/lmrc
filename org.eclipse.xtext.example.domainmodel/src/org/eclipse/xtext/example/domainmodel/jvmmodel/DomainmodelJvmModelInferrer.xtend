@@ -9,13 +9,14 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider
 import org.eclipse.xtext.util.IAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 
 class DomainmodelJvmModelInferrer extends AbstractModelInferrer {
 	
 	@Inject extension JvmTypesBuilder
 	@Inject extension IQualifiedNameProvider
 
-	def dispatch infer(Entity e, IAcceptor<JvmDeclaredType> acceptor, boolean prelinkingPhase) {
+	def dispatch void infer(Entity e, IJvmDeclaredTypeAcceptor acceptor, boolean prelinkingPhase) {
 		acceptor.accept(
 			e.toClass( e.fullyQualifiedName ) [
 				documentation = e.documentation

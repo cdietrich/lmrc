@@ -8,6 +8,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
+import org.xtext.example.lmrc.entityexpr.ui.internal.EntityWithExprDslActivator;
+
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
@@ -16,12 +18,12 @@ public class EntityWithExprDslExecutableExtensionFactory extends AbstractGuiceAw
 
 	@Override
 	protected Bundle getBundle() {
-		return org.xtext.example.lmrc.entityexpr.ui.internal.EntityWithExprDslActivator.getInstance().getBundle();
+		return EntityWithExprDslActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return org.xtext.example.lmrc.entityexpr.ui.internal.EntityWithExprDslActivator.getInstance().getInjector("org.xtext.example.lmrc.entityexpr.EntityWithExprDsl");
+		return EntityWithExprDslActivator.getInstance().getInjector(EntityWithExprDslActivator.ORG_XTEXT_EXAMPLE_LMRC_ENTITYEXPR_ENTITYWITHEXPRDSL);
 	}
 	
 }

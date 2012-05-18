@@ -8,6 +8,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
+import org.xtext.example.lmrc.db2entity.ui.internal.Db2EntityDslActivator;
+
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
@@ -16,12 +18,12 @@ public class Db2EntityDslExecutableExtensionFactory extends AbstractGuiceAwareEx
 
 	@Override
 	protected Bundle getBundle() {
-		return org.xtext.example.lmrc.db2entity.ui.internal.Db2EntityDslActivator.getInstance().getBundle();
+		return Db2EntityDslActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return org.xtext.example.lmrc.db2entity.ui.internal.Db2EntityDslActivator.getInstance().getInjector("org.xtext.example.lmrc.db2entity.Db2EntityDsl");
+		return Db2EntityDslActivator.getInstance().getInjector(Db2EntityDslActivator.ORG_XTEXT_EXAMPLE_LMRC_DB2ENTITY_DB2ENTITYDSL);
 	}
 	
 }

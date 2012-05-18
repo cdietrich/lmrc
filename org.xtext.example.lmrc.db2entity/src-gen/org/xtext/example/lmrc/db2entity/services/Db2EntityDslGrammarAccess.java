@@ -7,6 +7,8 @@ package org.xtext.example.lmrc.db2entity.services;
 import com.google.inject.Singleton;
 import com.google.inject.Inject;
 
+import java.util.List;
+
 import org.eclipse.xtext.*;
 import org.eclipse.xtext.service.GrammarProvider;
 import org.eclipse.xtext.service.AbstractElementFinder.*;
@@ -22,6 +24,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cDatabaseParserRuleCall = (RuleCall)rule.eContents().get(1);
 		
 		//Root returns db::Root:
+		//
 		//	Database;
 		public ParserRule getRule() { return rule; }
 
@@ -34,6 +37,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cEntityColumnMapperParserRuleCall = (RuleCall)rule.eContents().get(1);
 		
 		//AbstractColumnMapper returns db::AbstractColumnMapper:
+		//
 		//	EntityColumnMapper;
 		public ParserRule getRule() { return rule; }
 
@@ -51,6 +55,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cEntityAttributeFQNParserRuleCall_2_0_1 = (RuleCall)cEntityAttributeCrossReference_2_0.eContents().get(1);
 		
 		//EntityColumnMapper returns db::AbstractColumnMapper:
+		//
 		//	{EntityColumnMapper} "<-" entity=[entity::Attribute|FQN];
 		public ParserRule getRule() { return rule; }
 
@@ -82,6 +87,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cIDTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
 		//FQN:
+		//
 		//	ID ("." ID)*;
 		public ParserRule getRule() { return rule; }
 
@@ -107,19 +113,36 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	private EntityColumnMapperElements pEntityColumnMapper;
 	private FQNElements pFQN;
 	
-	private final GrammarProvider grammarProvider;
+	private final Grammar grammar;
 
 	private DbDslGrammarAccess gaDbDsl;
 
 	@Inject
 	public Db2EntityDslGrammarAccess(GrammarProvider grammarProvider,
 		DbDslGrammarAccess gaDbDsl) {
-		this.grammarProvider = grammarProvider;
+		this.grammar = internalFindGrammar(grammarProvider);
 		this.gaDbDsl = gaDbDsl;
 	}
 	
-	public Grammar getGrammar() {	
-		return grammarProvider.getGrammar(this);
+	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
+		Grammar grammar = grammarProvider.getGrammar(this);
+		while (grammar != null) {
+			if ("org.xtext.example.lmrc.db2entity.Db2EntityDsl".equals(grammar.getName())) {
+				return grammar;
+			}
+			List<Grammar> grammars = grammar.getUsedGrammars();
+			if (!grammars.isEmpty()) {
+				grammar = grammars.iterator().next();
+			} else {
+				return null;
+			}
+		}
+		return grammar;
+	}
+	
+	
+	public Grammar getGrammar() {
+		return grammar;
 	}
 	
 
@@ -129,6 +152,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//Root returns db::Root:
+	//
 	//	Database;
 	public RootElements getRootAccess() {
 		return (pRoot != null) ? pRoot : (pRoot = new RootElements());
@@ -139,6 +163,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AbstractColumnMapper returns db::AbstractColumnMapper:
+	//
 	//	EntityColumnMapper;
 	public AbstractColumnMapperElements getAbstractColumnMapperAccess() {
 		return (pAbstractColumnMapper != null) ? pAbstractColumnMapper : (pAbstractColumnMapper = new AbstractColumnMapperElements());
@@ -149,6 +174,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//EntityColumnMapper returns db::AbstractColumnMapper:
+	//
 	//	{EntityColumnMapper} "<-" entity=[entity::Attribute|FQN];
 	public EntityColumnMapperElements getEntityColumnMapperAccess() {
 		return (pEntityColumnMapper != null) ? pEntityColumnMapper : (pEntityColumnMapper = new EntityColumnMapperElements());
@@ -159,6 +185,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//FQN:
+	//
 	//	ID ("." ID)*;
 	public FQNElements getFQNAccess() {
 		return (pFQN != null) ? pFQN : (pFQN = new FQNElements());
@@ -169,6 +196,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Database:
+	//
 	//	"database" name=ID tables+=Table*;
 	public DbDslGrammarAccess.DatabaseElements getDatabaseAccess() {
 		return gaDbDsl.getDatabaseAccess();
@@ -179,6 +207,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Table:
+	//
 	//	"table" name=ID columns+=Column*;
 	public DbDslGrammarAccess.TableElements getTableAccess() {
 		return gaDbDsl.getTableAccess();
@@ -189,6 +218,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Column:
+	//
 	//	type=AbstractDataType name=ID mapper=AbstractColumnMapper?;
 	public DbDslGrammarAccess.ColumnElements getColumnAccess() {
 		return gaDbDsl.getColumnAccess();
@@ -199,6 +229,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//AbstractDataType:
+	//
 	//	CharType | NumberType;
 	public DbDslGrammarAccess.AbstractDataTypeElements getAbstractDataTypeAccess() {
 		return gaDbDsl.getAbstractDataTypeAccess();
@@ -209,6 +240,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//CharType:
+	//
 	//	{CharType} "char";
 	public DbDslGrammarAccess.CharTypeElements getCharTypeAccess() {
 		return gaDbDsl.getCharTypeAccess();
@@ -219,6 +251,7 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//NumberType:
+	//
 	//	{NumberType} "number";
 	public DbDslGrammarAccess.NumberTypeElements getNumberTypeAccess() {
 		return gaDbDsl.getNumberTypeAccess();
@@ -229,43 +262,51 @@ public class Db2EntityDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//terminal ID:
+	//
 	//	"^"? ("a".."z" | "A".."Z" | "_") ("a".."z" | "A".."Z" | "_" | "0".."9")*;
 	public TerminalRule getIDRule() {
 		return gaDbDsl.getIDRule();
 	} 
 
 	//terminal INT returns ecore::EInt:
+	//
 	//	"0".."9"+;
 	public TerminalRule getINTRule() {
 		return gaDbDsl.getINTRule();
 	} 
 
 	//terminal STRING:
+	//
 	//	"\"" ("\\" ("b" | "t" | "n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\""))* "\"" | "\'" ("\\" ("b" | "t" |
+	//
 	//	"n" | "f" | "r" | "u" | "\"" | "\'" | "\\") | !("\\" | "\'"))* "\'";
 	public TerminalRule getSTRINGRule() {
 		return gaDbDsl.getSTRINGRule();
 	} 
 
 	//terminal ML_COMMENT:
+	//
 	//	"/ *"->"* /";
 	public TerminalRule getML_COMMENTRule() {
 		return gaDbDsl.getML_COMMENTRule();
 	} 
 
 	//terminal SL_COMMENT:
+	//
 	//	"//" !("\n" | "\r")* ("\r"? "\n")?;
 	public TerminalRule getSL_COMMENTRule() {
 		return gaDbDsl.getSL_COMMENTRule();
 	} 
 
 	//terminal WS:
+	//
 	//	(" " | "\t" | "\r" | "\n")+;
 	public TerminalRule getWSRule() {
 		return gaDbDsl.getWSRule();
 	} 
 
 	//terminal ANY_OTHER:
+	//
 	//	.;
 	public TerminalRule getANY_OTHERRule() {
 		return gaDbDsl.getANY_OTHERRule();

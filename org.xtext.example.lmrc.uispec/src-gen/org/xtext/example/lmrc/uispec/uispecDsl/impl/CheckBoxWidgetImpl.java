@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
-
  */
 package org.xtext.example.lmrc.uispec.uispecDsl.impl;
 

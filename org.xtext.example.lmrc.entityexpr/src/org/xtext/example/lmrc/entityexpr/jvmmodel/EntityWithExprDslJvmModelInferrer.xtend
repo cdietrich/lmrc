@@ -7,6 +7,7 @@ import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 import org.xtext.example.lmrc.entityexpr.entityWithExprDsl.Entity
 import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -20,7 +21,7 @@ class EntityWithExprDslJvmModelInferrer extends AbstractModelInferrer {
 
 	@Inject extension JvmTypesBuilder
 
-   	def dispatch void infer(Entity entity, IAcceptor<JvmDeclaredType> acceptor, boolean isPrelinkingPhase) {
+   	def dispatch void infer(Entity entity, IJvmDeclaredTypeAcceptor acceptor, boolean isPrelinkingPhase) {
    		acceptor.accept(
 			entity.toClass( entity.fullyQualifiedName ) [
 				documentation = entity.documentation

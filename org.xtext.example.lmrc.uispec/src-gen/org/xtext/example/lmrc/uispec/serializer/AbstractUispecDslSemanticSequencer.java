@@ -22,7 +22,7 @@ import org.xtext.example.lmrc.uispec.uispecDsl.Form;
 import org.xtext.example.lmrc.uispec.uispecDsl.TextFieldWidget;
 import org.xtext.example.lmrc.uispec.uispecDsl.UispecDslPackage;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings("all")
 public class AbstractUispecDslSemanticSequencer extends AbstractSemanticSequencer {
 
 	@Inject
